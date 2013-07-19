@@ -1,0 +1,54 @@
+$sql = 'CREATE TABLE `pareto`.`users` (`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `username` TEXT NOT NULL, `password` TEXT NOT NULL, `email` TEXT NOT NULL) ENGINE = MyISAM';
+
+$sql = 'CREATE TABLE `pareto`.`endorse` (`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `userid` INT NOT NULL, `proposalid` INT NOT NULL) ENGINE = MyISAM';
+
+$sql = 'CREATE TABLE `pareto`.`proposals` (`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `blurb` BLOB NOT NULL, `usercreatorid` INT NOT NULL, `roundid` INT NOT NULL, `experimentid` INT NOT NULL) ENGINE = MyISAM';
+
+$sql = 'INSERT INTO `pareto`.`proposals` (`id`, `usercreatorid`, `roundid`, `experimentid`) VALUES (\'1\', \'1\', \'1\', \'1\');';
+
+$sql = 'ALTER TABLE `proposals` ADD `source` INT NOT NULL, ADD `dominatedby` INT NOT NULL;';
+
+$sql = 'ALTER TABLE `questions` ADD `title` TINYTEXT NOT NULL AFTER `usercreatorid`' ; 
+
+$sql = ' CREATE TABLE `pareto`.`updates` (
+`id` INT( 11 ) NOT NULL ,
+`user` INT( 11 ) NOT NULL ,
+`question` INT( 11 ) NOT NULL ,
+`how` ENUM( 'daily', 'weekly', 'asap' ) NOT NULL DEFAULT 'asap',
+`lastupdate` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+UNIQUE (`id`) ) ENGINE = MYISAM ';
+ALTER TABLE `updates` CHANGE `id` `id` INT( 11 ) NOT NULL AUTO_INCREMENT  
+
+ ALTER TABLE `questions` ADD `lastmoveon` DATETIME NOT NULL  
+
+ ALTER TABLE `proposals` ADD `creationtime` DATETIME NULL ;
+ 
+ ALTER TABLE `endorse` ADD `endorsementdate` DATETIME NOT NULL ;
+ 
+ ALTER TABLE `questions` ADD `minimumtime` INT UNSIGNED NULL DEFAULT '86400' COMMENT 'in minutes, default 1 day',
+ADD `maximumtime` INT UNSIGNED NULL DEFAULT '604800' COMMENT 'in minutes, default 1 week';
+
+ ALTER TABLE  `questions` CHANGE  `room`  `room` VARCHAR( 20 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
+
+ALTER TABLE `questions` ADD `bitlyhash` VARCHAR( 6 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'bitly URL hash'
+
+ALTER TABLE `users` 
+ADD `registered` DATETIME NULL COMMENT 'date registered',
+ADD `lastlogin` DATETIME NULL COMMENT 'time last logged in'
+
+ALTER TABLE `questions` 
+ADD `permit_anon_votes` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Permit anonymous voters',
+ADD `permit_anon_proposals` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Permit anonymous proposers';
+
+ALTER TABLE `users` 
+ADD `active` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'Set active to 0 to restrict user',
+ADD `anon` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Anonymous user'
+
+CREATE TABLE IF NOT EXISTS `proposal_relations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `frompid` int(11) NOT NULL,
+  `topid` int(11) NOT NULL,
+  `userid` int(11) NOT NULL DEFAULT '0',
+  `relation` enum('derives','implies','equivalent') NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8

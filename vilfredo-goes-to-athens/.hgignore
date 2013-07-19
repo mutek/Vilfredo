@@ -1,0 +1,34 @@
+syntax: glob
+priv
+js/work
+new
+js/jquery/tooltip/demo
+temp
+map
+remote
+remote_live
+logs
+rss
+*.orig
+vga current
+*.bak
+*.txt
+*.old
+*_old
+work
+current
+.htaccess
+copy*
+Copy*
+old
+demo*.php
+feeds
+news
+lib2
+z_useful files/my stuff
+nbproject
+test*
+Thumbs.db
+temp_files
+
+syntax: regexp
